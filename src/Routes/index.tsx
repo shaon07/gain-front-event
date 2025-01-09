@@ -8,8 +8,8 @@ import EventDetailContainer from "../components/Pages/EventDetail";
 import LoginPageContainer from "../components/Pages/Login";
 import RegisterPageContainer from "../components/Pages/Register";
 import PrivateLayout from "../components/Layout/PrivateLayout";
-import AuthLayout from "../components/Layout/AuthLayout";
 import { isAuthenticated } from "../constants";
+import PublicLayout from "../components/Layout/PublicLayout";
 
 // Mock event data for the detail page
 const mockEvent = {
@@ -45,7 +45,7 @@ export const RoutesProvider = () => {
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePageContainer />} />
 
-          <Route element={<AuthLayout isAuthenticated={isAuthenticated} />}>
+          <Route element={<PublicLayout isAuthenticated={isAuthenticated} />}>
             <Route path="/auth/login" element={<LoginPageContainer />} />
             <Route path="/auth/register" element={<RegisterPageContainer />} />
           </Route>

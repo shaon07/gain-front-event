@@ -4,6 +4,6 @@ interface AuthLayoutProps {
   isAuthenticated: boolean;
 }
 
-export default function AuthLayout({ isAuthenticated }: AuthLayoutProps) {
+export default function PublicLayout({ isAuthenticated }: AuthLayoutProps) {
   return !isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 }
