@@ -45,6 +45,7 @@ export const RoutesProvider = () => {
             element={<EventDetailContainer event={mockEvent} />}
           />
           <Route path="/create-event" element={<CreateEventContainer />} />
+          <Route path="/edit-event/:id" element={<CreateEventContainer />} />
           <Route path="/profile" element={<UserProfileContainer />} />
           <Route path="*" element={<NotFoundPageContainer />} />
         </Route>
