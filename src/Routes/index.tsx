@@ -5,6 +5,11 @@ import RootLayout from "../components/Layout/RootLayout";
 import CreateEventContainer from "../components/Pages/CreateEvent";
 import UserProfileContainer from "../components/Pages/UserProfile";
 import EventDetailContainer from "../components/Pages/EventDetail";
+import LoginPageContainer from "../components/Pages/Login";
+import RegisterPageContainer from "../components/Pages/Register";
+import PrivateLayout from "../components/Layout/PrivateLayout";
+import AuthLayout from "../components/Layout/AuthLayout";
+import { isAuthenticated } from "../constants";
 
 // Mock event data for the detail page
 const mockEvent = {
@@ -33,20 +38,28 @@ const mockEvent = {
   ],
   isOwner: true,
 };
-
 export const RoutesProvider = () => {
   return (
     <Router>
       <Routes>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePageContainer />} />
-          <Route
-            path="/events/:id"
-            element={<EventDetailContainer event={mockEvent} />}
-          />
-          <Route path="/create-event" element={<CreateEventContainer />} />
-          <Route path="/edit-event/:id" element={<CreateEventContainer />} />
-          <Route path="/profile" element={<UserProfileContainer />} />
+
+          <Route element={<AuthLayout isAuthenticated={isAuthenticated} />}>
+            <Route path="/auth/login" element={<LoginPageContainer />} />
+            <Route path="/auth/register" element={<RegisterPageContainer />} />
+          </Route>
+
+          <Route element={<PrivateLayout isAuthenticated={isAuthenticated} />}>
+            <Route
+              path="/events/:id"
+              element={<EventDetailContainer event={mockEvent} />}
+            />
+            <Route path="/create-event" element={<CreateEventContainer />} />
+            <Route path="/edit-event/:id" element={<CreateEventContainer />} />
+            <Route path="/profile" element={<UserProfileContainer />} />
+          </Route>
+
           <Route path="*" element={<NotFoundPageContainer />} />
         </Route>
       </Routes>

@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import Logo from "../Atoms/Logo";
 import UserAvatarLogout from "../Molecules/UserAvatarLogout";
+import { isAuthenticated } from "../../constants";
+import AuthMenu from "../Molecules/AuthMenu";
 
-const Header = () => {
-  // Mock user data - in a real app this would come from auth context
-  const isLoggedIn = true;
-
+export default function Header() {
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,11 +13,9 @@ const Header = () => {
             <Logo />
           </Link>
 
-          {isLoggedIn && <UserAvatarLogout />}
+          {isAuthenticated ? <UserAvatarLogout /> : <AuthMenu />}
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}
