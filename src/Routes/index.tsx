@@ -8,8 +8,8 @@ import EventDetailContainer from "../components/Pages/EventDetail";
 import LoginPageContainer from "../components/Pages/Login";
 import RegisterPageContainer from "../components/Pages/Register";
 import PrivateLayout from "../components/Layout/PrivateLayout";
-import { isAuthenticated } from "../constants";
 import PublicLayout from "../components/Layout/PublicLayout";
+import useUserInfo from "../hooks/userInfo";
 
 // Mock event data for the detail page
 const mockEvent = {
@@ -39,18 +39,19 @@ const mockEvent = {
   isOwner: true,
 };
 export const RoutesProvider = () => {
+  const {user} = useUserInfo();
   return (
     <Router>
       <Routes>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePageContainer />} />
 
-          <Route element={<PublicLayout isAuthenticated={isAuthenticated} />}>
+          <Route element={<PublicLayout isAuthenticated={user.isAuthenticated} />}>
             <Route path="/auth/login" element={<LoginPageContainer />} />
             <Route path="/auth/register" element={<RegisterPageContainer />} />
           </Route>
 
-          <Route element={<PrivateLayout isAuthenticated={isAuthenticated} />}>
+          <Route element={<PrivateLayout isAuthenticated={user.isAuthenticated} />}>
             <Route
               path="/events/:id"
               element={<EventDetailContainer event={mockEvent} />}

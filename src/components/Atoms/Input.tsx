@@ -7,7 +7,7 @@ interface InputProps {
   className?: string;
   rootClassName?: string;
   required?: boolean;
-  onChange?: (data: any) => void;
+  onChange?: (value: any, data?: any) => void;
   type?:
     | "text"
     | "number"
@@ -55,9 +55,9 @@ export default function Input({
         id={label}
         className={`mt-2 p-3 border border-gray-300 rounded-md w-full ${className}`}
         value={value}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          onChange(e.target.value)
-        }
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          onChange(e.target.value, e);
+        }}
         required={required}
       />
     </div>
