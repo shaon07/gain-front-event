@@ -25,13 +25,11 @@ const globalFetchQuery = (
 
     if (result.error) {
       if (result.error.status === 401) {
-        toast.warn("Unauthorized! You might want to log out the user.");
+        toast.warn("Unauthorized!");
         localStorage.removeItem("token");
         localStorage.removeItem("persist:root");
         window.location.href = "/auth/login";
       }
-    } else {
-      console.log("Response from API:", result.data);
     }
 
     return result;
