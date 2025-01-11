@@ -11,8 +11,7 @@ interface EventCoverProps {
 export default function EventCover({
   image,
   title,
-  startTime,
-  location,
+  location
 }: EventCoverProps) {
   const timeZones = [
     "America/New_York",
@@ -28,6 +27,7 @@ export default function EventCover({
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
         <h1 className="text-4xl font-bold mb-4">{title}</h1>
+        <h2 className="text-xl font-bold mb-4">Location: {location}</h2>
 
         <div className="flex items-center gap-2">
           {timeZones.map((zone) => (
