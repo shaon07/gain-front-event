@@ -2,13 +2,20 @@ import AttendenseUserList from "../Atoms/AttendenseUserList";
 import EventCover from "../Molecules/EventCover";
 import EventActions from "../Molecules/EventActions";
 import { useGetEventDetailQuery } from "../../services/api/events.service";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import useUserInfo from "../../hooks/userInfo";
 
 const EventDetailContainer = () => {
   const { id } = useParams();
-  const {user} = useUserInfo();
-  const {data, isLoading} = useGetEventDetailQuery({ eventId: id });
+  const location = useLocation();
+  const fullUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}`;
+  const { user } = useUserInfo();
+  const { data, isLoading } = useGetEventDetailQuery({ eventId: id });
+
+  const handleTwitterShare = () => {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=Check+out+this+amazing+post!&url=${fullUrl}`;
+    window.open(twitterUrl, "_blank", "noopener,noreferrer");
+  };
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -23,7 +30,11 @@ const EventDetailContainer = () => {
         />
 
         <div className="p-8">
-          <EventActions id={data?.event?._id} isOwner={user.userInfo?.user?._id === data?.event?.admin} />
+          <EventActions
+            id={data?.event?._id}
+            isOwner={user.userInfo?.user?._id === data?.event?.admin}
+            onShare={handleTwitterShare}
+          />
 
           <div className="prose max-w-none mb-8">
             <p>{data?.event?.description}</p>
