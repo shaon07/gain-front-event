@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const eventApiSlice = createApi({
   reducerPath: "userEventApi",
+  refetchOnMountOrArgChange: true,
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000/api/events",
     prepareHeaders: (headers) => {
@@ -32,5 +33,5 @@ export const eventApiSlice = createApi({
 export const {
   useGetAllEventsQuery,
   useGetUserEventsQuery,
-  useCreateEventMutation
+  useCreateEventMutation,
 } = eventApiSlice;

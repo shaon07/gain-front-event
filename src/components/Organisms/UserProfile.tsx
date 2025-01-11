@@ -5,7 +5,7 @@ import EventList from "../Atoms/EventList";
 import useUserInfo from "../../hooks/userInfo";
 import { useGetUserEventsQuery } from "../../services/api/events.service";
 
-interface Event {
+export interface Event {
   admin: string;
   coverPhoto: string;
   endTime: string;
@@ -13,6 +13,7 @@ interface Event {
   location: string;
   startTime: string;
   description: string;
+  visitors: []
   _id: string;
 }
 

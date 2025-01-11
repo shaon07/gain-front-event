@@ -9,6 +9,9 @@ interface EventProps {
   location: string;
   image: string;
   total: number;
+  showButton?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
 }
 
 export default function EventCard({
@@ -18,6 +21,9 @@ export default function EventCard({
   startTime,
   location,
   total,
+  showButton = true,
+  loading = false,
+  onClick = () => {},
 }: EventProps) {
   return (
     <div
@@ -60,7 +66,11 @@ export default function EventCard({
           </div>
         </div>
 
-        <Button className="mt-6 w-full">Confirm</Button>
+        {showButton && (
+          <Button onClick={onClick} loading={loading} className="mt-6 w-full">
+            View Details
+          </Button>
+        )}
       </div>
     </div>
   );
