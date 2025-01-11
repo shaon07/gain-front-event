@@ -19,9 +19,9 @@ export const eventApiSlice = createApi({
     getAllEvents: builder.query({
       query: () => "/",
     }),
-    register: builder.mutation({
+    createEvent: builder.mutation({
       query: (formData) => ({
-        url: "/auth/register",
+        url: "/",
         method: "POST",
         body: formData,
       }),
@@ -30,7 +30,7 @@ export const eventApiSlice = createApi({
 });
 
 export const {
-  useRegisterMutation,
   useGetAllEventsQuery,
   useGetUserEventsQuery,
+  useCreateEventMutation
 } = eventApiSlice;

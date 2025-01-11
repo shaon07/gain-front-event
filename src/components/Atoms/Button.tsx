@@ -32,7 +32,7 @@ export default function Button({
       type={type}
       disabled={loading}
       onClick={onClick}
-      className={` ${handleButtonVariant()} ${className}`}
+      className={` ${handleButtonVariant()} ${loading && "opacity-50 cursor-not-allowed"} ${className}`}
     >
       {children}
     </button>

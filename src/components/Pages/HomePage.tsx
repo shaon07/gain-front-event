@@ -1,10 +1,10 @@
-import EventList from "../Organisms/EventList";
+import EventListCard from "../Organisms/EventListCard";
 import HomePageTemplate from "../Templates/HomePageTemplate";
 
 export default function HomePageContainer() {
   return (
     <HomePageTemplate>
-      <EventList />
+      <EventListCard />
     </HomePageTemplate>
   );
 }

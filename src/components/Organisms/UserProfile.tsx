@@ -12,6 +12,8 @@ interface Event {
   eventname: string;
   location: string;
   startTime: string;
+  description: string;
+  _id: string;
 }
 
 const UserProfile = () => {
@@ -40,12 +42,13 @@ const UserProfile = () => {
           {data?.events.length > 0 ? (
             <ul>
               {data.events.map((event: Event) => (
-                <li key={event.admin} className="mb-4">
+                <li key={event._id} className="mb-4">
                   <EventList
                     title={event.eventname}
                     startTime={event.startTime}
                     endTime={event.endTime}
                     location={event.location}
+                    description={event.description}
                   />
                 </li>
               ))}

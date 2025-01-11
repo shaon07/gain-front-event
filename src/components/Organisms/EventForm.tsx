@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Input from "../Atoms/Input";
 import TextArea from "../Atoms/TextArea";
 import Button from "../Atoms/Button";
-
-interface EventFormProps {
-  onSubmit: (eventData: EventData) => void;
-}
+import { useCreateEventMutation } from "../../services/api/events.service";
+import { useNavigate } from "react-router-dom";
 
 interface EventData {
   title: string;
@@ -13,25 +11,47 @@ interface EventData {
   startTime: string;
   endTime: string;
   location: string;
+  image: File | null;
 }
 
-const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [startTime, setStartTime] = useState<string>("");
-  const [endTime, setEndTime] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
+const EventForm = () => {
+  const router = useNavigate();
+  const [createEvent, { isLoading }] = useCreateEventMutation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [eventState, setEventState] = useState({
+    title: "",
+    description: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+    image: null,
+  } as EventData);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const eventData: EventData = {
-      title,
-      description,
-      startTime,
-      endTime,
-      location,
-    };
-    onSubmit(eventData);
+    const data = new FormData();
+    data.append("eventname", eventState.title);
+    data.append("description", eventState.description);
+    data.append("startTime", eventState.startTime);
+    data.append("endTime", eventState.endTime);
+    data.append("location", eventState.location);
+    if (eventState.image) {
+      data.append("coverPhoto", eventState.image);
+    }
+
+    const res = await createEvent(data).unwrap();
+
+    if (res.success) {
+      setEventState({
+        title: "",
+        description: "",
+        startTime: "",
+        endTime: "",
+        location: "",
+        image: null,
+      });
+      router("/profile");
+    }
   };
 
   return (
@@ -45,8 +65,10 @@ const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
         <Input
           label="Event Title"
           placeholder="Enter event title"
-          value={title}
-          onChange={(value) => setTitle(value)}
+          value={eventState.title}
+          onChange={(value) => {
+            setEventState({ ...eventState, title: value });
+          }}
           required
         />
       </div>
@@ -54,8 +76,10 @@ const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
       <div className="mb-4">
         <TextArea
           label="Event Description"
-          value={description}
-          onChange={setDescription}
+          value={eventState.description}
+          onChange={(value) => {
+            setEventState({ ...eventState, description: value });
+          }}
           required
         />
       </div>
@@ -64,8 +88,10 @@ const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
         <Input
           label="Start Time"
           type="datetime-local"
-          value={startTime}
-          onChange={(value) => setStartTime(value)}
+          value={eventState.startTime}
+          onChange={(value) => {
+            setEventState({ ...eventState, startTime: value });
+          }}
           required
         />
       </div>
@@ -74,8 +100,10 @@ const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
         <Input
           label="End Time"
           type="datetime-local"
-          value={endTime}
-          onChange={(value) => setEndTime(value)}
+          value={eventState.endTime}
+          onChange={(value) => {
+            setEventState({ ...eventState, endTime: value });
+          }}
           required
         />
       </div>
@@ -83,12 +111,28 @@ const EventForm: React.FC<EventFormProps> = ({ onSubmit }) => {
       <div className="mb-4">
         <Input
           label="Location"
-          value={location}
-          onChange={(value) => setLocation(value)}
+          value={eventState.location}
+          onChange={(value) => {
+            setEventState({ ...eventState, location: value });
+          }}
+          required
         />
       </div>
 
-      <Button type="submit" className="w-full">Create Event</Button>
+      <div className="mb-4">
+        <Input
+          label="Cover Photo"
+          type="file"
+          onChange={(_, data) => {
+            setEventState({ ...eventState, image: data.target.files[0] });
+          }}
+          required
+        />
+      </div>
+
+      <Button type="submit" loading={isLoading} className="w-full">
+        Create Event
+      </Button>
     </form>
   );
 };
