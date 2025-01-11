@@ -4,6 +4,7 @@ import UserDetailCard from "../Atoms/UserDetailCard";
 import EventList from "../Atoms/EventList";
 import useUserInfo from "../../hooks/userInfo";
 import { useGetUserEventsQuery } from "../../services/api/events.service";
+import { Link } from "react-router-dom";
 
 export interface Event {
   admin: string;
@@ -13,13 +14,13 @@ export interface Event {
   location: string;
   startTime: string;
   description: string;
-  visitors: []
+  visitors: [];
   _id: string;
 }
 
 const UserProfile = () => {
   const { user } = useUserInfo();
-  const {data} = useGetUserEventsQuery(null);
+  const { data } = useGetUserEventsQuery(null);
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
@@ -44,13 +45,15 @@ const UserProfile = () => {
             <ul>
               {data.events.map((event: Event) => (
                 <li key={event._id} className="mb-4">
-                  <EventList
-                    title={event.eventname}
-                    startTime={event.startTime}
-                    endTime={event.endTime}
-                    location={event.location}
-                    description={event.description}
-                  />
+                  <Link to={`/events/${event._id}`}>
+                    <EventList
+                      title={event.eventname}
+                      startTime={event.startTime}
+                      endTime={event.endTime}
+                      location={event.location}
+                      description={event.description}
+                    />
+                  </Link>
                 </li>
               ))}
             </ul>

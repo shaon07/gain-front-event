@@ -2,6 +2,7 @@ import Input from "../Atoms/Input";
 import Button from "../Atoms/Button";
 import { FormEvent, useState } from "react";
 import { useLoginMutation } from "../../services/api/user.service";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const [login, {isLoading}] = useLoginMutation();
@@ -11,7 +12,10 @@ export default function LoginForm() {
   });
   const handleLoginSubmit = async(event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await login(loginState).unwrap();
+    await login(loginState).unwrap().catch(e => {
+      toast.warn(e.data?.message)
+      return;
+    });
   };
 
   return (

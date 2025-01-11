@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { useAppSelector } from "../../context/redux/hook";
 import { RootState } from "../../context/redux/store";
 import useUserInfo from "../../hooks/userInfo";
@@ -21,7 +22,12 @@ const EventListCard = () => {
   const [confirmEvent, { isLoading }] = useConfirmEventMutation();
 
   const handleConfirmEvent = async (event: Event) => {
-    const res = await confirmEvent({ eventId: event._id }).unwrap();
+    const res = await confirmEvent({ eventId: event._id })
+      .unwrap()
+      .catch((e) => {
+        toast.warn(e.data?.message);
+        return;
+      });
     if (res.success) {
       refetch();
     }

@@ -3,6 +3,7 @@ import "./App.css";
 import { RoutesProvider } from "./Routes";
 import { persistor, store } from "./context/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <RoutesProvider />
         </PersistGate>
       </Provider>
+      <ToastContainer />
     </div>
   );
 }

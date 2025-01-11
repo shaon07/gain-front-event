@@ -58,6 +58,7 @@ export default function Input({
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           onChange(e.target.value, e);
         }}
+        accept="image/*"
         required={required}
       />
     </div>

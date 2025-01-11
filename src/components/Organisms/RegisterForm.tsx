@@ -2,6 +2,7 @@ import Input from "../Atoms/Input";
 import Button from "../Atoms/Button";
 import { useState } from "react";
 import { useRegisterMutation } from "../../services/api/user.service";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const [register, { isLoading }] = useRegisterMutation();
@@ -19,9 +20,10 @@ export default function RegisterForm() {
     data.append("email", registerState.email);
     data.append("password", registerState.password);
     data.append("avatar", registerState.avatar);
-    await register(data);
-    console.log(registerState);
-    // TODO: Add registration logic here
+    await register(data).catch(e => {
+      toast.warn(e.data?.message)
+      return
+    })
   };
 
   return (
