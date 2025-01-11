@@ -45,7 +45,7 @@ export const userSlice = createSlice({
           state.isAuthenticated = false;
           localStorage.removeItem("token");
         }
-    ),
+      ),
       builder.addMatcher(
         userApiSlice.endpoints.register.matchFulfilled,
         (state, action) => {
@@ -53,7 +53,7 @@ export const userSlice = createSlice({
           state.isAuthenticated = true;
           localStorage.setItem("token", action.payload.user.token);
         }
-    );
+      );
   },
 });
 
