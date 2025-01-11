@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Input from "../Atoms/Input";
 import TextArea from "../Atoms/TextArea";
 import Button from "../Atoms/Button";
-import { useCreateEventMutation } from "../../services/api/events.service";
-import { useNavigate } from "react-router-dom";
 
-interface EventData {
+export interface EventData {
   title: string;
   description: string;
   startTime: string;
@@ -14,10 +12,17 @@ interface EventData {
   image: File | null;
 }
 
-const EventForm = () => {
-  const router = useNavigate();
-  const [createEvent, { isLoading }] = useCreateEventMutation();
+interface EventFormProps {
+  onSubmit?: (event: EventData) => void;
+  loading?: boolean;
+  event?: EventData;
+}
 
+export default function EventForm({
+  onSubmit = () => {},
+  loading = false,
+  event
+}: EventFormProps) {
   const [eventState, setEventState] = useState({
     title: "",
     description: "",
@@ -25,33 +30,12 @@ const EventForm = () => {
     endTime: "",
     location: "",
     image: null,
+    ...event
   } as EventData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("eventname", eventState.title);
-    data.append("description", eventState.description);
-    data.append("startTime", eventState.startTime);
-    data.append("endTime", eventState.endTime);
-    data.append("location", eventState.location);
-    if (eventState.image) {
-      data.append("coverPhoto", eventState.image);
-    }
-
-    const res = await createEvent(data).unwrap();
-
-    if (res.success) {
-      setEventState({
-        title: "",
-        description: "",
-        startTime: "",
-        endTime: "",
-        location: "",
-        image: null,
-      });
-      router("/profile");
-    }
+    onSubmit(eventState);
   };
 
   return (
@@ -126,15 +110,13 @@ const EventForm = () => {
           onChange={(_, data) => {
             setEventState({ ...eventState, image: data.target.files[0] });
           }}
-          required
+          required={!eventState.image}
         />
       </div>
 
-      <Button type="submit" loading={isLoading} className="w-full">
+      <Button type="submit" loading={loading} className="w-full">
         Create Event
       </Button>
     </form>
   );
-};
-
-export default EventForm;
+}
