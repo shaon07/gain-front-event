@@ -1,50 +1,99 @@
-# React + TypeScript + Vite
+# Frontend Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React-based frontend project built with modern tools and libraries. It uses Vite for fast development and TypeScript for type safety. The project is designed for scalability and maintainability with Redux Toolkit for state management and Tailwind CSS for styling.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18**: For building user interfaces.
+- **Vite**: Lightning-fast development and build tool.
+- **TypeScript**: Static typing for JavaScript.
+- **Redux Toolkit**: Simplified state management.
+- **Tailwind CSS**: Utility-first CSS framework.
+- **React Router DOM**: Declarative routing for React applications.
+- **Axios**: HTTP client for API requests.
+- **React Toastify**: For displaying toast notifications.
+- **Moment & Moment-Timezone**: Handling dates and times across different time zones.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. Navigate to the project directory:
+   ```bash
+   cd frontend
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+## Scripts
+
+- **`npm run dev`**: Start the development server.
+- **`npm run build`**: Build the project for production.
+- **`npm run lint`**: Run ESLint to check for code quality issues.
+- **`npm run preview`**: Preview the production build.
+
+## Folder Structure
+
+```
+frontend/
+├── src/
+│   ├── components/       # Reusable UI components
+│   ├── features/         # Redux slices
+│   ├── pages/            # Application pages
+│   ├── styles/           # Global and Tailwind CSS styles
+│   ├── utils/            # Utility functions
+│   └── main.tsx         # Entry point
+├── public/           # Static assets
+└── package.json      # Project metadata and dependencies
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Main Dependencies
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- `@reduxjs/toolkit`: State management.
+- `axios`: For API requests.
+- `lucide-react`: Icons.
+- `moment` & `moment-timezone`: Date and time utilities.
+- `react`, `react-dom`: Core React libraries.
+- `react-intersection-observer`: Handle scroll-based events.
+- `react-redux`: Connect React with Redux.
+- `react-router-dom`: Routing library.
+- `react-toastify`: Toast notifications.
+- `redux-persist`: Persist Redux state.
+
+### Development Dependencies
+
+- `@eslint/js`: ESLint configuration.
+- `@types/react`, `@types/react-dom`: TypeScript definitions for React.
+- `@types/redux-persist`: TypeScript definitions for Redux Persist.
+- `@vitejs/plugin-react`: React plugin for Vite.
+- `autoprefixer`: Add vendor prefixes to CSS.
+- `eslint`, `eslint-plugin-react-hooks`: Linting tools.
+- `postcss`: CSS processing.
+- `tailwindcss`: CSS framework.
+- `typescript`, `typescript-eslint`: TypeScript and linting support.
+- `vite`: Build tool.
+
+## Styling
+
+The project uses **Tailwind CSS** for styling. You can customize the design by modifying the `tailwind.config.js` file.
+
+## State Management
+
+State is managed using **Redux Toolkit** for a simple and efficient development experience. Persisted state is handled using **redux-persist**.
+
+## Routing
+
+Routing is set up using **React Router DOM**, allowing for dynamic navigation between pages.
+
+
+
+
+
