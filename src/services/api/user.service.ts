@@ -1,18 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import globalFetchQuery from "../../utils/globalFetchBaseQuery";
 
 export const userApiSlice = createApi({
   reducerPath: "userApi",
   refetchOnMountOrArgChange: true,
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api",
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: globalFetchQuery("/api"),
   endpoints: (builder) => ({
     getUser: builder.query({
       query: () => "/posts",

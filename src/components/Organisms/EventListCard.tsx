@@ -8,8 +8,10 @@ import {
 } from "../../services/api/events.service";
 import EventCard from "../Molecules/EventCard";
 import { Event } from "./UserProfile";
+import { useNavigate } from "react-router-dom";
 
 const EventListCard = () => {
+  const router = useNavigate();
   const { user } = useUserInfo();
   const {
     allEvents: events,
@@ -22,15 +24,18 @@ const EventListCard = () => {
   const [confirmEvent, { isLoading }] = useConfirmEventMutation();
 
   const handleConfirmEvent = async (event: Event) => {
-    const res = await confirmEvent({ eventId: event._id })
+    await confirmEvent({ eventId: event._id })
       .unwrap()
+      .then((res) => {
+        if (res.success) {
+          refetch();
+        }
+      })
       .catch((e) => {
         toast.warn(e.data?.message);
+        router("/auth/login");
         return;
       });
-    if (res.success) {
-      refetch();
-    }
   };
 
   const filteredEvents = events

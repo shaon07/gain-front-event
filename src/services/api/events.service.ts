@@ -1,18 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import globalFetchQuery from "../../utils/globalFetchBaseQuery";
 
 export const eventApiSlice = createApi({
   reducerPath: "userEventApi",
   refetchOnMountOrArgChange: true,
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/events",
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: globalFetchQuery("/api/events"),
   endpoints: (builder) => ({
     getUserEvents: builder.query({
       query: () => "/my-events",
@@ -28,20 +20,20 @@ export const eventApiSlice = createApi({
       }),
     }),
     updateEvent: builder.mutation({
-      query: ({eventId, formData}) => ({
+      query: ({ eventId, formData }) => ({
         url: `/${eventId}`,
         method: "PUT",
         body: formData,
       }),
     }),
     confirmEvent: builder.mutation({
-      query: ({eventId}) => ({
+      query: ({ eventId }) => ({
         url: `/${eventId}/confirm`,
         method: "POST",
       }),
     }),
     getEventDetail: builder.query({
-      query: ({eventId}) => `/details/${eventId}`,
+      query: ({ eventId }) => `/details/${eventId}`,
     }),
   }),
 });
@@ -52,5 +44,5 @@ export const {
   useCreateEventMutation,
   useConfirmEventMutation,
   useGetEventDetailQuery,
-  useUpdateEventMutation
+  useUpdateEventMutation,
 } = eventApiSlice;
