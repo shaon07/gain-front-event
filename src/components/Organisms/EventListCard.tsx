@@ -1,11 +1,22 @@
 import useUserInfo from "../../hooks/userInfo";
-import { useGetAllEventsQuery } from "../../services/api/events.service";
+import {
+  useConfirmEventMutation,
+  useGetAllEventsQuery,
+} from "../../services/api/events.service";
 import EventCard from "../Molecules/EventCard";
 import { Event } from "./UserProfile";
 
 const EventListCard = () => {
   const { user } = useUserInfo();
-  const { data } = useGetAllEventsQuery(null);
+  const { data, refetch } = useGetAllEventsQuery(null);
+  const [confirmEvent, { isLoading }] = useConfirmEventMutation();
+
+  const handleConfirmEvent = async (event: Event) => {
+    const res = await confirmEvent({ eventId: event._id }).unwrap();
+    if (res.success) {
+      refetch();
+    }
+  };
 
   if (!data) return <p>Loading...</p>;
 
@@ -22,6 +33,8 @@ const EventListCard = () => {
             image={event.coverPhoto}
             total={event.visitors.length}
             showButton={user.userInfo?.user?._id !== event.admin}
+            loading={isLoading}
+            onClick={() => handleConfirmEvent(event)}
           />
         ))}
       </div>

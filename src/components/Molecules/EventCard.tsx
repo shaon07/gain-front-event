@@ -68,7 +68,7 @@ export default function EventCard({
 
         {showButton && (
           <Button onClick={onClick} loading={loading} className="mt-6 w-full">
-            View Details
+            Confirm
           </Button>
         )}
       </div>

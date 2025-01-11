@@ -27,6 +27,12 @@ export const eventApiSlice = createApi({
         body: formData,
       }),
     }),
+    confirmEvent: builder.mutation({
+      query: ({eventId}) => ({
+        url: `/${eventId}/confirm`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -34,4 +40,5 @@ export const {
   useGetAllEventsQuery,
   useGetUserEventsQuery,
   useCreateEventMutation,
+  useConfirmEventMutation
 } = eventApiSlice;
