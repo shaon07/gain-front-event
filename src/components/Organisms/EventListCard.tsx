@@ -9,8 +9,11 @@ import {
 import EventCard from "../Molecules/EventCard";
 import { Event } from "./UserProfile";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const EventListCard = () => {
+  const { ref, inView } = useInView();
   const router = useNavigate();
   const { user } = useUserInfo();
   const {
@@ -22,6 +25,7 @@ const EventListCard = () => {
   } = useAppSelector((state: RootState) => state.eventSlice);
   const { refetch } = useGetAllEventsQuery(null);
   const [confirmEvent, { isLoading }] = useConfirmEventMutation();
+  const [initialInfiniteScroll, setInitialInfiniteScroll] = useState(6);
 
   const handleConfirmEvent = async (event: Event) => {
     await confirmEvent({ eventId: event._id })
@@ -38,7 +42,14 @@ const EventListCard = () => {
       });
   };
 
+  useEffect(() => {
+    if (inView) {
+      setInitialInfiniteScroll((prev) => prev + 6);
+    }
+  }, [inView]);
+
   const filteredEvents = events
+    .slice(0, initialInfiniteScroll)
     .filter((event: Event) =>
       event.eventname.toLowerCase().includes(eventNameFilter.toLowerCase())
     )
@@ -82,6 +93,10 @@ const EventListCard = () => {
           ))
         ) : (
           <p>No events found</p>
+        )}
+
+        {filteredEvents.length < events.length && (
+          <button ref={ref}>Load More</button>
         )}
       </div>
     </div>
